@@ -69,7 +69,7 @@ export default function svelteAdapterAmplify(
 					framework: { name: 'SvelteKit', version: '2.11.1' },
 					routes: [
 						{
-							path: '/*.*',
+							path: '/*',
 							target: {
 								kind: 'Static',
 								cacheControl: 'public, max-age=3600',
