@@ -5,6 +5,7 @@ import { Server } from 'SERVER';
 import { type HttpBindings, serve } from '@hono/node-server';
 import { RESPONSE_ALREADY_SENT } from '@hono/node-server/utils/response';
 import { getRequest, setResponse } from '@sveltejs/kit/node';
+import { env as honoEnv } from 'hono/adapter';
 import { Hono } from 'hono/tiny';
 
 export const host = env('HOST', '0.0.0.0');
@@ -20,9 +21,8 @@ const body_size_limit = Number.parseInt(env('BODY_SIZE_LIMIT', '524288'));
 
 export const hono = new Hono<{ Bindings: HttpBindings }>().use(
 	'*',
-	async (_, next) => {
-		// @ts-expect-error env is valid
-		await handler.init({ env: process.env });
+	async (c, next) => {
+		await handler.init({ env: honoEnv(c) });
 		await next();
 	},
 );
